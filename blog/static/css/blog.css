@@ -11,11 +11,11 @@
 }
 
 .content {
-    margin-left: 40px;
+    margin-left: 60px;
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: 'Lobster', cursive;
+    font-family: 'Open+Sans';
 }
 
 .date {
@@ -38,7 +38,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .post {
-    margin-bottom: 70px;
+    margin-bottom: 100px;
 }
 
 .post h5 a, .post h5 a:visited {
