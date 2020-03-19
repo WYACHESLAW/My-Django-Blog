@@ -1,8 +1,25 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
+from django.dispatch import Signal
+from .utilities import send_activation_notification
 
+class AdvUser(AbstractUser):
+    is_activated = models.BooleanField(default=True, db_index=True, verbose_name = 'Прошел активацию?')
+    send_messages = models.BooleanField(default=True, verbose_name = 'Слать оповещение о новых коментариях ?')
+    def delete(self, *arqs, **kwarqs):
+        for post in self.post_set.all():
+            post. delete()
+            super().delete(*arqs, **kwarqs)
+    class Meta(AbstractUser.Meta):
+        pass
 
+user_registrated = Signal(providing_args = ['instance'])
+def user_registrated_dispatcher(sender, **kwargs):
+    send_activation_notification(kwargs['instance'])
+    user_registrated.connect(user_registrated_dispatcher)
+    
 class Rubric(models.Model):
     name = models.CharField(max_length = 20, db_index = True, null = True, unique = True, verbose_name = 'Haзвaниe')
     order = models.SmallIntegerField(default = 0, db_index = True, verbose_name = 'Пopядoк')
@@ -50,6 +67,7 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
+    is_active = models.BooleanField(default = True, db_index = True, verbose_name = 'Выводить в списке?')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 

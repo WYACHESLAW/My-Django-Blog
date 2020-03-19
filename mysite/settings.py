@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap4',
     'blog',
     'taggit',
 ]
@@ -52,6 +53,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.middlewares.post_context_processor',
             ],
         },
     },
@@ -89,7 +91,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#AUTH_USER_MODEL = 'blog.AdvUser'
+AUTH_USER_MODEL = 'blog.AdvUser'
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 

@@ -1,7 +1,5 @@
 ﻿{% extends 'blog/base.html' %}
-{% load thumbnail %}
-{% load static %}
-{% load bootstrap4 %}
+
 
 {% block title %}{{ rubric }}{% endblock %}
 
@@ -13,27 +11,23 @@
 <div class="container-fluid mb-2">
     
 </div>
-{% if sts %}
+{% if posts %}
 <ul class="list-unstyled">
-    {% for st in sts %}
+    {% for post in posts %}
     <li class="media my-5 p-3 border">
-        {% url 'main:detail' rubric_pk=rubric.pk pk=st.pk as url %}
+        {% url 'detail' rubric_pk=rubric.pk pk=post.pk as url %}
         <a href="{{ url }}{{ all }}">
-        {% if st.image %}
-        <img class="mr-3" src="{% thumbnail st.image 'default' %}">
-        {% else %}
-        <img class="mr-3" src="{% static 'main/empty.jpg' %}">
-        {% endif %}
+        
         </a>
         <div class="media-body">
-          <h3><a href="{{ url }}{{ all }}">{{ st.title }}</a></h3>
-          <div>{{ st.content }}</div>
-          <p class="text-right font-weight-bold">{{ st.price }}</p>
-          <p class="text-right font-italic">{{ st.created_at }}</p>
+          <h3><a href="{{ url }}{{ all }}">{{ post.title }}</a></h3>
+          <div>{{ post.text }}</div>
+          <p class="text-right font-weight-bold">{{ post.price }}</p>
+          <p class="text-right font-italic">{{ post.created_date }}</p>
         </div>
     </li>
     {% endfor %}
 </ul>
-{% bootstrap_pagination page url=keyword %}
+
 {% endif %}
 {% endblock %}

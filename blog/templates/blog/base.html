@@ -1,4 +1,4 @@
-{% load static %}
+{% load bootstrap4 %}
 {% load static %}
 <!doctype html>
 <html lang="ru">
@@ -7,18 +7,21 @@
   content="text/html; charset=utf-8">
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,400&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+     {% bootstrap_javascript jquery='slim' %}
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,400,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <title>Блог пожилого ЧПУшника</title>
 </head>
 	<body>
+	   
 	<header>	
-		<div class="container">
+		<div class="container-fluid">
 		<div class="row">
 			<nav class="navbar navbar-expand-md navbar-dark  block fixed-top bg-dark text-light" role="navigation>
-				<a class="navbar-brand" href="#" role="banner">ФОРУМЫ PRO CNC</a>
+				<a class="navbar-brand" href="#" role="banner"><H5> СЕКРЕТЫ ЧПУ </H5></a>
 				
               		<div class="collapse navbar-collapse" id="navbarsDefault">
 					<ul class="navbar-nav ml-auto">
@@ -35,8 +38,8 @@
 					
       <ul class="col nav justify-content-end ">
         <li class="nav-item">
-          <A class="nav-link" href="#">Регистрация</a></li>
-            {% if request.user.is_authenticated %}
+          <A class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
+           <!-- {% if request.user.is_authenticated %}-->
             <li class="nav-item dropdown">
               <A class="nav-link dropdown-toggle"
               data-toggle="dropdown" href="#"
@@ -63,34 +66,29 @@
 		 </div>	
 		 </div>
 	</header>
-<div class="row">
-                    <nav class="col-md-auto nav flex-column border">
-                      <A class="nav-link root"
+  <div class="row"><div class="w-100"></div>
+                    <nav class="col-md-2 mb-8 nav flex-column border ;"><h1>.   </h1>
+                      <A class="nav-link root "
                       {% for rubric in rubrics %}
                       {% ifchanged rubric.super_rubric.pk %}
                       <span class="nav-link root font-weight-Ьold">
                         {{ rubric.super_rubric.name }}</span>
                         {% endifchanged %}
-                        <A class="nav-link" href="{% url 'block:by_rubric' pk=rubric.pk %}">
+                        <A class="nav-link" href="{% url 'by_rubric' pk=rubric.pk %}">
                           {{ rubric.name }}</a>
                           {% endfor %}
- </div>					
+                     </nav>   
+					
                    
-    <div class="content container">
-    
-            <div class="row mb-6 md-8">
-           
-            <h1>.   </h1>
-            <div class="col-md-8 my-lg-6"></div>
-            </div>
-           
+                       <section class="col-md-6 mb-8 nav flex-column border"><h1>.   </h1>
+                       <div class="w-100"></div>
+                            {% bootstrap_messages %}
+                            {% block content %}
+                            {% endblock %}
+                          </section>
             
-            {% block content %}
-            {% endblock %}
-            
-        
-    </div>   
-                  
+                      
+        </div>          
 	</body>
 	
 	 <footer class="mt-3">

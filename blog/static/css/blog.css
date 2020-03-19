@@ -4,18 +4,18 @@
     padding: 20px 20px 20px 40px;
 }
 
-.page-header h3, .page-header h3 a, .page-header h3 a:visited, .page-header h3 a:active {
+.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
     color: #ffffff;
-    font-size: 24pt;
+    font-size: 36pt;
     text-decoration: none;
 }
 
 .content {
-    margin-left: 60px;
+    margin-left: 80px;
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: 'Open+Sans';
+    font-family: 'Open+Sans:400';
 }
 
 .date {
@@ -38,9 +38,12 @@ h1, h2, h3, h4, h5 {
 }
 
 .post {
-    margin-bottom: 100px;
+    margin-bottom: 70px;
 }
 
-.post h5 a, .post h5 a:visited {
+.post h1 a, .post h1 a:visited {
     color: #000000;
 }
+
+
+
