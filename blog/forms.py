@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from .models import user_registrated
-from .models import Post
+from .models import Post, Comment
 from .models import AdvUser
 
 class PostForm(forms.ModelForm):
@@ -54,3 +54,9 @@ class RegisterUserForm(forms.ModelForm):
         model = AdvUser
         fields = ('username', 'email', 'password1', 'password2', 
               'first_name', 'last_name', 'send_messages')
+        
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ('author', 'text',)

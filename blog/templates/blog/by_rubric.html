@@ -25,6 +25,7 @@
           <p class="text-right font-weight-bold">{{ post.price }}</p>
           <p class="text-right font-italic">{{ post.created_date }}</p>
         </div>
+        <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
     </li>
     {% endfor %}
 </ul>

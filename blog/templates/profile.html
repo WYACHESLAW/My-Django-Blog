@@ -1,0 +1,36 @@
+{% extends 'blog/base.html' %}
+
+
+
+{% block content %}
+<h2>Профиль пользователя {{ user.username }}</h2>
+{% if user.first_name and user.last_name %}
+<p>Здравствуйте, {{ user.first_name }} {{ user.last_name }}!</p>
+{% else %}
+<p>Здравствуйте!</p>
+{% endif %}
+<p><a href="{% url 'profile_post_add' %}">Добавить объявление</a></p>
+{% if bbs %}
+<h3>Ваши объявления</h3>
+<ul class="list-unstyled">
+    {% for post in posts %}
+    <li class="media my-5 p-3 border">
+        {% url 'blog:profile_post_detail' pk=post.pk as url %}
+        <a href="{{ url }}">
+        </a>
+        <div class="media-body">
+            <p>Рубрика: {{ post.rubric }}</p>
+            <h3><a href="{{ url }}">{{ post.title }}</a></h3>
+            <div>{{ post.content }}</div>
+            <p class="text-right font-weight-bold">{{ post.price }} руб.</p>
+            <p class="text-right font-italic">{{ post.created_at }}</p>
+            <p class="text-right mt-2">
+                <a href="{% url 'blog:profile_post_change' pk=post.pk %}">Исправить</a>
+                <a href="{% url 'blog:profile_post_delete' pk=post.pk %}">Удалить</a>
+            </p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

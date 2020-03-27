@@ -1,0 +1,17 @@
+2020-03-27 17:07:26.483 +03 [6440] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-03-27 17:55:35.300 +03 [13040] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-03-27 18:49:32.286 +03 [9448] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-03-27 18:57:22.246 +03 [6600] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-03-27 19:06:38.340 +03 [12980] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-03-27 19:13:32.114 +03 [2416] ОШИБКА:  нулевое значение в столбце "author_id" нарушает ограничение NOT NULL
+2020-03-27 19:13:32.114 +03 [2416] ПОДРОБНОСТИ:  Ошибочная строка содержит (5, CNC 600, Интересует алгоритм управления РГ., t, 2020-03-27 16:13:32.043679+00, null, null, null).
+2020-03-27 19:13:32.114 +03 [2416] ОПЕРАТОР:  INSERT INTO "blog_post" ("rubric_id", "author_id", "title", "text", "is_active", "created_date", "published_date") VALUES (NULL, NULL, 'CNC 600', 'Интересует алгоритм управления РГ.', true, '2020-03-27T16:13:32.043679+00:00'::timestamptz, NULL) RETURNING "blog_post"."id"
+2020-03-27 19:34:02.164 +03 [7684] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-03-27 19:50:52.662 +03 [9932] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
