@@ -14,7 +14,7 @@ SECRET_KEY = 'vj%ntqsa8wvhpteplow+s#%s)#=gazbw-%0#ye76#0hr@=^7pi'
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', '198.162.104.4', 'tut.by']
 
 # Application definition
 
@@ -28,8 +28,10 @@ INSTALLED_APPS = [
     'bootstrap4',
     'blog',
     'taggit',
-     #'django_cleanup',
+    'django_cleanup',
     'easy_thumbnails',
+    'captcha',
+    'main'
 ]
 
 MIDDLEWARE = [
@@ -105,7 +107,17 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'blog.AdvUser'
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
-
+THUMBNALL_ALIASES = {
+    '': {
+        'default': {
+            'size': (96, 96),
+            'crop': 'scale',
+        },
+    },
+}
+THUМВNAIL_BASEDIR = 'thumbnails'
+МEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+МEDIA_URL = '/media/'
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Moscow'

@@ -9,7 +9,7 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'text',)
+        fields = ('title', 'text', 'author')
 
 from .models import SuperRubric, SubRubric
 class SubRubricForm(forms.ModelForm):

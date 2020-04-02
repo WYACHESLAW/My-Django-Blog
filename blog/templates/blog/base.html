@@ -29,10 +29,10 @@
 					
 					<a class="sr-only sr-only-focusable" href="#content">
 						<li class="nav-item"><a class="nav-link root" href="{% url 'post_list' %}">Форумы</a> 
-						<li class="nav-item"><a class="nav-link root" href="#">Документация</a></li>
+						<li class="nav-item"><a class="nav-link root" href="{% url 'main:document' %}">Документация</a></li>
                         <li class="nav-item"><a class="nav-link root" href="#">Файлы</a></li>
                         <li class="nav-item"><a class="nav-link root" href="#">Литература</a></li>
-                        <li class="nav-item"><a class="nav-link root" href="{% url 'project' page='projects' %}">Проекты</a></li>
+                        <li class="nav-item"><a class="nav-link root" href="{% url 'index' %}">Проекты</a></li>
 						<li class="nav-item"><a class="nav-link root" href="{% url 'other' page='about' %}">О сайте</a></li>
 					</ul>
 					</div>

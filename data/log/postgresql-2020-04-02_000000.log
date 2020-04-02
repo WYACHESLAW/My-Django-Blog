@@ -1,0 +1,42 @@
+2020-04-02 12:12:00.836 +03 [1900] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 12:12:50.713 +03 [15944] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 12:14:15.641 +03 [13404] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 12:27:50.152 +03 [16608] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 12:30:37.489 +03 [10656] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 13:13:31.625 +03 [2236] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 13:15:51.862 +03 [15400] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 13:24:25.534 +03 [1308] ОШИБКА:  нулевое значение в столбце "author_id" нарушает ограничение NOT NULL
+2020-04-02 13:24:25.534 +03 [1308] ПОДРОБНОСТИ:  Ошибочная строка содержит (6, 12345, 123456789123456789, t, 2020-04-02 10:24:25.372901+00, null, null, null).
+2020-04-02 13:24:25.534 +03 [1308] ОПЕРАТОР:  INSERT INTO "blog_post" ("rubric_id", "author_id", "title", "text", "is_active", "created_date", "published_date") VALUES (NULL, NULL, '12345', '123456789123456789', true, '2020-04-02T10:24:25.372901+00:00'::timestamptz, NULL) RETURNING "blog_post"."id"
+2020-04-02 13:25:08.332 +03 [17556] ОШИБКА:  нулевое значение в столбце "author_id" нарушает ограничение NOT NULL
+2020-04-02 13:25:08.332 +03 [17556] ПОДРОБНОСТИ:  Ошибочная строка содержит (7, 12345, 123456789123456789, t, 2020-04-02 10:25:08.317466+00, null, null, null).
+2020-04-02 13:25:08.332 +03 [17556] ОПЕРАТОР:  INSERT INTO "blog_post" ("rubric_id", "author_id", "title", "text", "is_active", "created_date", "published_date") VALUES (NULL, NULL, '12345', '123456789123456789', true, '2020-04-02T10:25:08.317466+00:00'::timestamptz, NULL) RETURNING "blog_post"."id"
+2020-04-02 13:28:23.287 +03 [18092] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 13:43:42.363 +03 [14080] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:12:45.489 +03 [15100] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:14:05.336 +03 [12064] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:23:00.978 +03 [12204] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:23:51.556 +03 [12032] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:24:30.591 +03 [15068] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:28:36.392 +03 [2352] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:34:40.018 +03 [11824] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:45:16.825 +03 [6596] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	
+2020-04-02 14:52:16.792 +03 [17988] СООБЩЕНИЕ:  не удалось получить данные от клиента: An existing connection was forcibly closed by the remote host.
+	

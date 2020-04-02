@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+{% load thumbnail %}
+{% load static %}
+{% block title %}Документация{% endblock %}
+{% block content %}
+
+ {% if documents != 0 %}
+
+<ul class="list-unstyled">
+{% for document in documents %}
+<div class="container-fluid mt-3">
+    <div class="row">
+        
+        <div class="col">
+            <h4><a href="{{ url }}{{ all }}">{{document.title}}</a></h4>
+           <div>{{ document.content }}</div>
+           <p class="text-right font-weight-bold">{{ document.slug }}</p>
+          <p class="text-right font-italic">{{ document.publish }}</p>
+        </div>
+    </div>
+{% endfor %}
+</ul>
+</div>
+
+  {% else %}
+<h1>Документация отсутствует</h1>   
+ {% endif %}
+
+{% endblock %}

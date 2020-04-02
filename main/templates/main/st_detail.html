@@ -1,0 +1,30 @@
+﻿{% extends "layout/basic.html" %)
+{% blосk title %){{ st.title )) - {{ st.rubric.name )){% endblock %)
+{% blосk content %)
+<div class="container-fluid mt-3">
+<div class="row">
+{% if st.image %)
+<div class="col-md-auto"><img src="{{ st.image.url }}"
+class="main-image"></div>
+{% endif %)
+<div class="col">
+<h2{{ st.title }}</h2>
+<P>{{ st.content }}</p>
+<р class="font-weight-bold">{{ st.price }}</р>
+<р>{{ st.contacts }}</р>
+<р class="text-right fоnt-itаliс">Объявление добавлено{{ st.created_at }}</р>
+</div>.
+</div>
+</div>
+(% if ais %}
+<div class="d-flex justify-content-between flex-wrap mt-5">
+(% for ai in ais %}
+<div>
+<img class="additional-image" src="(( ai.image.url }}">
+</div>
+(% endfor %}
+</div>
+(% endif %}
+<р><а href="{% url 'main:by_rubric' pk=st.rubric.pk %}{{ all }}">
+Назад</а></р>
+{% endblock % }

@@ -25,7 +25,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
-
+#from django.contrib import messages
+from django.contrib import messages
 class PostLogoutView(LoginRequiredMixin, LogoutView):
     template_name = 'logout.html'
 
@@ -45,7 +46,9 @@ def index(request):
     return render(request, 'index.html', context)
 @login_required
 def profile(request):
-    return render(request, 'profile.html')
+    posts = Post.objects.filter(author=request.user.pk)
+    context = {'posts': posts}
+    return render(request, 'profile.html', context)
 
 class PostByRubricView(ListView):
     template_name = 'blog/by_rubric.html'
@@ -68,12 +71,39 @@ def profile_post_add(request):
             #if formset.is_valid():
              #formset. save ()
             messages.add_message(request, messages.SUCCESS, 'Объявление добавлено')
-            return redirect('blog:profile')
+            return redirect('profile')
     else:
         form = PostForm(initial={'author':request.user.pk})
       #  formset = AIFormSet()
         context = {'form':form}
         return render(request, 'profile_post_add.html', context)
+@login_required
+def profile_post_change(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save()
+            #formset = AIFormSet(request.POST, request.FILES, instance=st)
+            #if formset.is_valid():
+                #formset.save()
+            messages.add_message(request, messages.SUCCESS, 'Объявление исправлено')
+            return redirect('profile')
+    else:
+        form = PostForm(instance=post)
+        #formset = AIFormSet(instance=st)
+        context = {'form':form}
+        return render(request, 'profile_post_change.html', context) 
+@login_required
+def profile_post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        post.delete()
+        messages.add_message(request, messages.SUCCESS, 'Объявление удалено')
+        return redirect ('profile')
+    else:
+        context = {'post':post}
+        return render(request, 'profile_post_delete.html', context)
     
 def by_rubric(request, pk):
     rubric = get_object_or_404(SubRubric, pk=pk)
@@ -133,13 +163,6 @@ def post_edit(request, pk):
 def other_page(request, page):
     try:
         template = get_template('blog/'+page+'.html')
-    except TemplateDoesNotExist:
-        raise Http404
-    return HttpResponse(template.render(request=request))
-
-def project_page(request, page):
-    try:
-        template = get_template('blog/'+ page+ '.html')
     except TemplateDoesNotExist:
         raise Http404
     return HttpResponse(template.render(request=request))

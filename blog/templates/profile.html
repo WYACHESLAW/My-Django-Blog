@@ -1,5 +1,5 @@
 {% extends 'blog/base.html' %}
-
+{% load bootstrap4 %}
 
 
 {% block content %}
@@ -10,12 +10,12 @@
 <p>Здравствуйте!</p>
 {% endif %}
 <p><a href="{% url 'profile_post_add' %}">Добавить объявление</a></p>
-{% if bbs %}
+{% if posts %}
 <h3>Ваши объявления</h3>
 <ul class="list-unstyled">
     {% for post in posts %}
     <li class="media my-5 p-3 border">
-        {% url 'blog:profile_post_detail' pk=post.pk as url %}
+        {% url 'profile_post_detail' pk=post.pk as url %}
         <a href="{{ url }}">
         </a>
         <div class="media-body">
@@ -25,8 +25,8 @@
             <p class="text-right font-weight-bold">{{ post.price }} руб.</p>
             <p class="text-right font-italic">{{ post.created_at }}</p>
             <p class="text-right mt-2">
-                <a href="{% url 'blog:profile_post_change' pk=post.pk %}">Исправить</a>
-                <a href="{% url 'blog:profile_post_delete' pk=post.pk %}">Удалить</a>
+                <a href="{% url 'profile_post_change' pk=post.pk %}">Исправить</a>
+                <a href="{% url 'profile_post_delete' pk=post.pk %}">Удалить</a>
             </p>
         </div>
     </li>
