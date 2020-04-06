@@ -4,7 +4,7 @@ from .models import AdvUser
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from .models import St
-from captcha.fields import CaptchaField
+
 from .models import Comment
 
         
@@ -33,11 +33,4 @@ class UserCommentForm(forms.ModelForm):
         exclude = ('is_active',)
         widgets = {'st':forms.HiddenInput}
 
-class GuestCommentForm(forms.ModelForm):
-    captcha = CaptchaField(label='Введите текст с картинки',
-              error_messages={'invalid':'Неправильный текст'})
 
-    class Meta:
-        model = Comment
-        exclude = ('is_active',)
-        widgets = {'st': forms.HiddenInput}
