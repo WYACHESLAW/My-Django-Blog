@@ -16,11 +16,11 @@
     {% for post in posts %}
     <li class="media my-5 p-3 border">
         {% url 'detail' rubric_pk=rubric.pk pk=post.pk as url %}
-        <a href="{{ url }}{{ all }}">
+        <a href="{% url 'post_detail' pk=post.pk %}">
         
         </a>
         <div class="media-body">
-          <h3><a href="{{ url }}{{ all }}">{{ post.title }}</a></h3>
+          <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
           <div>{{ post.text }}</div>
           <p class="text-right font-weight-bold">{{ post.price }}</p>
           <p class="text-right font-italic">{{ post.created_date }}</p>

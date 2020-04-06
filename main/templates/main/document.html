@@ -4,20 +4,19 @@
 {% block title %}Документация{% endblock %}
 {% block content %}
 
- {% if documents != 0 %}
+ {% if documents %}
 
 <ul class="list-unstyled">
 {% for document in documents %}
 <div class="container-fluid mt-3">
-    <div class="row">
         
-        <div class="col">
-            <h4><a href="{{ url }}{{ all }}">{{document.title}}</a></h4>
+        <div class="media-body">
+            <h5><a href="{% url 'main:docdetail' pk=document.pk %}">{{document.title}}</a></h5>
            <div>{{ document.content }}</div>
            <p class="text-right font-weight-bold">{{ document.slug }}</p>
           <p class="text-right font-italic">{{ document.publish }}</p>
         </div>
-    </div>
+   
 {% endfor %}
 </ul>
 </div>

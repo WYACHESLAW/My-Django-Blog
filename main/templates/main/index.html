@@ -1,29 +1,21 @@
 ﻿{% extends "blog/base.html" %}
-{% load thumbnail %}
-{% load static %}
-
 {% block content %}
+
+<h2>Последние 10 проектов</h2>
 {% if sts %}
-<h2>Последние 10 объявлений</h2>
 <ul class="list-unstyled">
     {% for st in sts %}
+<div class="container-fluid mt-3">
     <li class="media my-5 p-3 border">
-        {% url 'main:detail' rubric_pk=st.rubric.pk pk=st.pk as url %}
-        <a href="{{ url }}{{ all }}">
-        {% if st.image %}
-        <img class="mr-3" src="{% thumbnail st.image 'default' %}">
-        {% else %}
-        <img class="mr-3" src="{% static 'main/empty.jpg' %}">
-        {% endif %}
-        </a>
-        <div class="media-body">
-          <h3><a href="{{ url }}{{ all }}">{{ st.title }}</a></h3>
-          <div>{{ st.content }}</div>
+         <div class="media-body">
+          <h5><a href="{% url 'main:st_detail' pk=st.pk %}">{{ st.title }}</a></h5>
           <p class="text-right font-weight-bold">{{ st.price }}</p>
           <p class="text-right font-italic">{{ st.created_at }}</p>
         </div>
     </li>
     {% endfor %}
 </ul>
+</div>
 {% endif %}
+
 {% endblock %}

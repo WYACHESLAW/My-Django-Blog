@@ -19,12 +19,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
-from .models import Post, Rubric
+from .models import Rubric
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 #from django.contrib import messages
 from django.contrib import messages
 class PostLogoutView(LoginRequiredMixin, LogoutView):
@@ -36,7 +35,7 @@ class Post_LoginView(LoginView):
 def index(request):
     rubrics = Rubric .objects.all()
     posts = Post.objects.all()
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 5)
     if 'page' in request.Get:
         page_num = request.Get('page')
     else:
@@ -105,6 +104,7 @@ def profile_post_delete(request, pk):
         context = {'post':post}
         return render(request, 'profile_post_delete.html', context)
     
+    
 def by_rubric(request, pk):
     rubric = get_object_or_404(SubRubric, pk=pk)
     posts = Post.objects.filter(is_active=True, rubric=pk)
@@ -125,9 +125,46 @@ def by_rubric(request, pk):
     return render(request, 'blog/by_rubric.html', context)
 
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    if UserPassesTestMixin:
+        posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+        paginator = Paginator(posts, 5) # По 3 статьи на каждой странице.
+        page = request.GET.get('page')
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+ 	 # Если страница не является целым числом, возвращаем первую страницу. 
+ 	        posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
 
+        return render(request, 'blog/post_list.html', {'page': page, 'posts': posts})
+#def post_list(request, tag_slug=None):
+#    object_list = Post.published.all()
+#    tag = None
+
+#    if tag_slug:
+#        tag = get_object_or_404(Tag, slug=tag_slug)
+#        object_list = object_list.filter(tags__in=[tag])
+
+#    paginator = Paginator(object_list, 3) # 3 posts in each page
+#    page = request.GET.get('page')
+#    try:
+#        posts = paginator.page(page)
+#    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+#        posts = paginator.page(1)
+#    except EmptyPage:
+        # If page is out of range deliver last page of results
+#        posts = paginator.page(paginator.num_pages)
+
+#    return render(request,
+#                  'blog/post/list.html',
+#                  {'page': page,
+#                   'posts': posts,
+#                   'tag': tag})
+ 
+
+@login_required
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
@@ -175,6 +212,9 @@ class RegisterUserView(CreateView):
     
 class RegisterDoneView(TemplateView):
     template_name = 'register_done.html'
+ 
+from django.core.signing import BadSignature
+from .utilities import signer    
     
 def user_activate(request, sign):
     try:
@@ -207,6 +247,7 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
             queryset = self.get_queryset()
             return get_object_or_404(queryset, pk=self.user_id)
         
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":

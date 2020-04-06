@@ -1,11 +1,15 @@
-{% extends "blog/base.html" %} 
- 
-{% block title %}{{StDocument.title}}{% endblock %} 
- 
-{% block content %} 
-  <h1>{{StDocument.title}}</h1> 
-  <p class="date"> 
-    Published {{StDocument.publish}} by {{StDocument.author}} 
-  </p> 
+{% extends "blog/base.html" %}
+{% load bootstrap4 %}
+{% block title %}{{ document.title }}{% endblock %}
+{% block content %}
+<div class="container-fluid mt-3">
+<div class="row">
+<h2>{{ document.title }}</h2>
+<div class="w-100"></div>
+<div class="col">
+<P>{{ document.body }}</p>
+<p class="font-weight-bold">{{ document.slug }}</p>
 
+</div>
+</div>
 {% endblock %}

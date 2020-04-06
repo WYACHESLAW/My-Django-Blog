@@ -1,16 +1,12 @@
-﻿{% extends "layout/basic.html" %}
-{% load bootstrap4 %}
-{% block title %}Вход{% endblock %}
+{% extends "blog/base.html" %}
+{% load thumbnail %}
+{% load static %}
+{% block title %}Документация{% endblock %}
 {% block content %}
-<h2>Bxoд</h2>
-{% if user.is_authenticated %}
-<P>Вы уже выnолнили вход.</p>
-{% else %}
-<form method="post">
-{% csrf_token %}
-{% bootstrap_form form layout='horizontal' %}
-<input type="hidden" name="next" value="{{ next }}">
-{% buttons submit='Boйти' %}{% endbuttons %}
-</form>
-{% endif %}
+
+
+
+<h1>Авторизация отсутствует</h1>   
+
+
 {% endblock %}

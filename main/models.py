@@ -63,7 +63,7 @@ class St(models.Model):
     price = models.CharField(max_length = 40, verbose_name='Станок')
     contacts = models.TextField(verbose_name = 'Koнтaкты')
     image = models.ImageField(blank = True, upload_to = get_timestamp_path, verbose_name = 'Изображение')
-    author = models.ForeignKey(AdvUser, on_delete = models.CASCADE, verbose_name = 'Aвтop объявления')
+    author = models.ForeignKey(AdvUser, on_delete = models.CASCADE, verbose_name = 'Aвтop проекта')
     is_active = models.BooleanField(default = True, db_index = True, verbose_name = 'Выводить в списке?')
     created_at = models.DateTimeField(auto_now_add = True, db_index = True, verbose_name = 'Опубликовано')
     def delete(self, *args, **kwargs):
@@ -71,16 +71,18 @@ class St(models.Model):
             ai. delete ()
         super().delete(*args, **kwargs)
     class Meta:
-        verbose_name_plural = 'Объявления'
-        verbose_name = 'Объявления'
+        verbose_name_plural = 'Проекты'
+        verbose_name = 'Проект'
         ordering = ['-created_at']
 
 class StDocument(models.Model):
     STATUS_CHOICES = ( 
                      ('draft', 'Draft'), 
                      ('published', 'Published'), 
-) 
+)
+    rubric = models.ForeignKey(SubRubric, null=True, on_delete=models.PROTECT, verbose_name = 'Pyбpикa')
     title = models.CharField(max_length=250, default='', verbose_name = 'Tема') 
+    body = models.TextField(verbose_name = 'Oпиcaниe')
     slug = models.SlugField(max_length=250,
                             unique_for_date='publish', default='0000', verbose_name ='Код') 
     author = models.ForeignKey(AdvUser, 
@@ -127,8 +129,8 @@ from django.db.models.signals import post_save
 def post_save_dispatcher(sender, **kwargs):
     author = kwargs['instance'].bb.author
     if kwargs['created'] and author.send_messages:
-        send_new_comment_notification(kwargs['instance'])
-post_save.connect(post_save_dispatcher, sender=Comment)
+#        send_new_comment_notification(kwargs['instance'])
+         post_save.connect(post_save_dispatcher, sender=Comment)
 
 
 
