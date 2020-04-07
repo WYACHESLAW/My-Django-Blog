@@ -1,12 +1,11 @@
 {% extends "blog/base.html" %}
-
+{% load bootstrap4 %}
 {% block title %}Удаление объявления - Профиль пользователя{% endblock %}
-
 {% block content %}
 <h2>Удаление объявления</h2>
 <div class="container-fluid mt-3">
     <div class="row">
-        {% if bb.image %}
+        {% if post.image %}
         <div class="col-md-auto"><img src="{{ post.image.url }}" class="main-image"></div>
         {% endif %}
         <div class="col">

@@ -24,7 +24,7 @@ def index(request):
 
 from django.db.models import Q
 from .models import SubRubric, St,Comment
-from .forms import SearchForm,  UserCommentForm, GuestCommentForm
+from .forms import SearchForm,  UserCommentForm
 from django.contrib import messages
    
 
