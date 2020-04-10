@@ -40,7 +40,7 @@
 					
       <ul class="col nav justify-content-end ">
         <li class="nav-item">
-          <A class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
+          <A class="nav-link" href="{% url 'register_user' %}">Регистрация</a></li>
            {% if request.user.is_activated %}
             <li class="nav-item dropdown">
               <A class="nav-link dropdown-toggle"
@@ -49,12 +49,12 @@
               aria-expanden="False">Профиль </a>
               <div class="dropdown-menu">
                 <A class="dropdown-item" href="{% url 'profile' %}">Moи объявления</a>
-                  <A class="dropdown-item" href="#">Изменить личные данные</a>
-                    <a class="dropdown-item" href="#">Изменить пароль</a>
+                  <A class="dropdown-item" href="{% url 'change_user_info' %}">Изменить личные данные</a>
+                    <a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a>
                     <div class="dropdown-divider"></div>
                     <A class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
                       <div class="dropdown-divider"></div>
-                      <A class="dropdown-item" href="#">Удалить</a>
+                      <A class="dropdown-item" href="{% url 'profile_post_delete' pk=user.pk %}">Удалить</a>
                </div>
             </li>
                     {% else %}

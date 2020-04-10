@@ -1,31 +1,33 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.dispatch import Signal
-from .utilities import send_activation_notification
 from .utilities import get_timestamp_path
-from django.utils import timezone
-from django.contrib.auth.models import User
 from django.urls import reverse
 from blog.models import AdvUser
 
     
-user_registrated = Signal(providing_args = ['instance'])
-def user_registrated_dispatcher(sender, **kwargs):
-    send_activation_notification(kwargs['instance'])
-    user_registrated.connect(user_registrated_dispatcher)
     
-class Rubric(models.Model):
+class StRubric(models.Model):
     name = models.CharField(max_length = 20, db_index = True, null = True, unique = True, verbose_name = 'Haзвaниe')
     order = models.SmallIntegerField(default = 0, db_index = True, verbose_name = 'Пopядoк')
-    super_rubric = models.ForeignKey('SuperRubric',
+    stsuper_rubric = models.ForeignKey('StSuperRubric',
                                      on_delete = models.PROTECT, null = True, blank = True,
                                      verbose_name = 'Haдpyбpикa')
-class SuperRubricManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(super_rubric__isnull=True)
+class StDRubric(models.Model):
+    name = models.CharField(max_length = 20, db_index = True, null = True, unique = True, verbose_name = 'Haзвaниe')
+    order = models.SmallIntegerField(default = 0, db_index = True, verbose_name = 'Пopядoк')
+    stdsuper_rubric = models.ForeignKey('StDSuperRubric',
+                                     on_delete = models.PROTECT, null = True, blank = True,
+                                     verbose_name = 'Haдpyбpикa')    
 
-class SuperRubric(Rubric):
-    objects = SuperRubricManager()
+class StSuperRubricManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(stsuper_rubric__isnull=True)
+    
+class StDSuperRubricManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(stdsuper_rubric__isnull=True)
+
+class StSuperRubric(StRubric):
+    objects = StSuperRubricManager()
     
     def __str__(self):
         return self.name
@@ -33,23 +35,46 @@ class SuperRubric(Rubric):
     class Meta:
         proxy = True
         ordering = ('order', 'name')
-        verbose_name = 'Надрубрика'
-        verbose_name_plural = 'Надрубрики'
-        
+        verbose_name = 'Надрубрика проектов'
+        verbose_name_plural = 'Надрубрики проектов'
 
-class SubRubricМanager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(super_rubric__isnull = False)
-    
-class SubRubric(Rubric):
-    objects = SubRubricМanager()
+class StDSuperRubric(StDRubric):
+    objects = StDSuperRubricManager()
     def __str__(self):
-        return '%s - %s' % (self.super_rubric.name, self.name)
+        return self.name
     class Meta:
         proxy = True
-        ordering = ('super_rubric__order', 'super_rubric__name', 'order', 'name')
-        verbose_name = 'Подрубрика'
-        verbose_name_plural = 'Подрубрики'
+        ordering = ('order', 'name')
+        verbose_name = 'Надрубрика документации'
+        verbose_name_plural = 'Надрубрики документации'       
+
+class StSubRubricМanager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(stsuper_rubric__isnull = False)
+
+class StDSubRubricМanager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(stdsuper_rubric__isnull = False)
+    
+class StSubRubric(StRubric):
+    objects = StSubRubricМanager()
+    def __str__(self):
+        return '%s - %s' % (self.stsuper_rubric.name, self.name)
+    class Meta:
+        proxy = True
+        ordering = ('stsuper_rubric__order', 'stsuper_rubric__name', 'order', 'name')
+        verbose_name = 'Подрубрика проекта'
+        verbose_name_plural = 'Подрубрики проектов'
+        
+class StDSubRubric(StDRubric):
+    objects = StDSubRubricМanager()
+    def __str__(self):
+        return '%s - %s' % (self.stdsuper_rubric.name, self.name)
+    class Meta:
+        proxy = True
+        ordering = ('stdsuper_rubric__order', 'stdsuper_rubric__name', 'order', 'name')
+        verbose_name = 'Подрубрика документации'
+        verbose_name_plural = 'Подрубрики документации'
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -57,7 +82,7 @@ class PublishedManager(models.Manager):
        
 
 class St(models.Model):
-    rubric = models.ForeignKey(SubRubric, null=True, on_delete=models.PROTECT, verbose_name = 'Pyбpикa')
+    strubric = models.ForeignKey(StSubRubric, null=True, on_delete=models.PROTECT, verbose_name = 'Pyбpикa')
     title = models.CharField(max_length = 40, verbose_name = 'Tема')
     content = models.TextField(verbose_name = 'Oпиcaниe')
     price = models.CharField(max_length = 40, verbose_name='Станок')
@@ -80,7 +105,7 @@ class StDocument(models.Model):
                      ('draft', 'Draft'), 
                      ('published', 'Published'), 
 )
-    rubric = models.ForeignKey(SubRubric, null=True, on_delete=models.PROTECT, verbose_name = 'Pyбpикa')
+    StDrubric = models.ForeignKey(StDSubRubric, null=True, on_delete=models.PROTECT, verbose_name = 'Pyбpикa')
     title = models.CharField(max_length=250, default='', verbose_name = 'Tема') 
     body = models.TextField(verbose_name = 'Oпиcaниe')
     slug = models.SlugField(max_length=250,

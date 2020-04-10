@@ -1,11 +1,10 @@
-{% extends "blog/base.html" %}
+{% extends "main/base_doc.html" %}
+{% load bootstrap4 %}
 {% load thumbnail %}
 {% load static %}
 {% block title %}Документация{% endblock %}
 {% block content %}
-
- {% if documents %}
-
+{% if documents %}
 <ul class="list-unstyled">
 {% for document in documents %}
 <div class="container-fluid mt-3">

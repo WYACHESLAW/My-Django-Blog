@@ -1,0 +1,34 @@
+﻿{% extends 'blog/base.html' %}
+
+
+{% block title %}{{ rubric }}{% endblock %}
+
+{% block searchform %}
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-2">{{ stdrubric }}</h2>
+<div class="container-fluid mb-2">
+    
+</div>
+{% if posts %}
+<ul class="list-unstyled">
+    {% for post in posts %}
+    <li class="media my-5 p-3 border">
+        {% url 'detail' rubric_pk=stdrubric.pk pk=post.pk as url %}
+        <a href="{% url 'doc_detail' pk=document.pk %}">
+        
+        </a>
+        <div class="media-body">
+          <h3><a href="{% url 'doc_detail' pk=document.pk %}">{{ document.title }}</a></h3>
+          <div>{{ post.text }}</div>
+          <p class="text-right font-weight-bold">{{ post.price }}</p>
+          <p class="text-right font-italic">{{ post.created_date }}</p>
+        </div>
+        <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endif %}
+{% endblock %}

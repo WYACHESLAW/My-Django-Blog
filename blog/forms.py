@@ -5,6 +5,12 @@ from .models import user_registrated
 from .models import Post, Comment
 from .models import AdvUser
 
+class ChangeUserinfoForm(forms.ModelForm):
+    email = forms.EmailField(required = True, label = 'Aдpec электронной почты')
+    class Meta:
+        model = AdvUser
+        fields = ('username', 'email', 'first_name', 'last_name', 'send_messages')
+
 class PostForm(forms.ModelForm):
 
     class Meta:

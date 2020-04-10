@@ -2,7 +2,7 @@ from django.urls import path
 from .import views
 from .views import other_page
 from .views import by_rubric
-#from .views import detail
+from .views import STR_PasswordChangeView, ChangeUserinfoView 
 from .views import RegisterUserView, RegisterDoneView
 from .views import user_activate
 from .views import Post_LoginView
@@ -20,7 +20,7 @@ urlpatterns = [
     path('profile/delete/<int:pk>/', profile_post_delete, name='profile_post_delete'),
     path('register/activate/<str:sign>/', user_activate, name='register_activate'),
     path('register/done/', RegisterDoneView.as_view(), name='register_done'),
-    path('register/', RegisterUserView.as_view (), name='register'),
+    path('register/', RegisterUserView.as_view (), name='register_user'),
     path('login/', Post_LoginView.as_view(), name='login'),
     path('', views.post_list, name='post_list'),
     path('index', index, name='index'),
@@ -33,4 +33,7 @@ urlpatterns = [
     path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
     path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
     path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
+    path('password/change/', STR_PasswordChangeView.as_view(), name='password_change'),
+    path('profile/change/', ChangeUserinfoView.as_view(), name='change_user_info'),
+
 ]

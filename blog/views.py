@@ -24,13 +24,38 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
+from .forms import ChangeUserinfoForm
 #from django.contrib import messages
 from django.contrib import messages
+
+class ChangeUserinfoView(SuccessMessageMixin, LoginRequiredMixin,
+                         UpdateView) :
+    model = AdvUser
+    template_name = 'blog/change_user_info.html'
+    form_class = ChangeUserinfoForm
+    success_url = reverse_lazy('profile')
+    success_message = 'личные данные пользователя изменены'
+    def dispatch(self, request, *args, **kwargs):
+        self . user_id = request.user.pk
+        return super() .dispatch(request, *args, **kwargs)
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+            return get_object_or_404(queryset, pk=self.user_id)
+
+
+class STR_PasswordChangeView(SuccessMessageMixin, LoginRequiredMixin,
+                           PasswordChangeView) :
+    template_name = 'blog/password_change.html' 
+    success_url = reverse_lazy('blog:profile')
+    success_message = 'Пароль пользователя изменен'
+
 class PostLogoutView(LoginRequiredMixin, LogoutView):
     template_name = 'logout.html'
 
 class Post_LoginView(LoginView):
     template_name = 'login.html'
+   
 
 def index(request):
     rubrics = Rubric .objects.all()

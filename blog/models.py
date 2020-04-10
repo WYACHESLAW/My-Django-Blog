@@ -38,8 +38,8 @@ class SubRubric(Rubric):
     class Meta:
         proxy = True
         ordering = ('super_rubric__order', 'super_rubric__name', 'order', 'name')
-        verbose_name = 'Подрубрика'
-        verbose_name_plural = 'Подрубрики'
+        verbose_name = 'Подрубрика тем'
+        verbose_name_plural = 'Подрубрики тем'
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -59,8 +59,8 @@ class SuperRubric(Rubric):
     class Meta:
         proxy = True
         ordering = ('order', 'name')
-        verbose_name = 'Надрубрика'
-        verbose_name_plural = 'Надрубрики'
+        verbose_name = 'Надрубрика тем'
+        verbose_name_plural = 'Надрубрики тем'
 
 class Post(models.Model):
     rubric = models.ForeignKey(SubRubric, null=True, on_delete=models.PROTECT, verbose_name = 'Pyбpикa')

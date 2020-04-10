@@ -20,7 +20,7 @@
             <p>Рубрика: {{ post.rubric }}</p>
             <h3><a href="{{ url }}">{{ post.title }}</a></h3>
             <div>{{ post.content }}</div>
-            <p class="text-right font-weight-bold">{{ post.price }} руб.</p>
+            <p class="text-right font-weight-bold">{{ post.price }}</p>
             <p class="text-right font-italic">{{ post.created_at }}</p>
             <p class="text-right mt-2">
                 <a href="{% url 'profile_post_change' pk=post.pk %}">Исправить</a>
