@@ -14,7 +14,7 @@ SECRET_KEY = 'vj%ntqsa8wvhpteplow+s#%s)#=gazbw-%0#ye76#0hr@=^7pi'
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', '198.162.104.4', 'tut.by']
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
 # Application definition
 
@@ -137,3 +137,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

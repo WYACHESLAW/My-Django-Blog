@@ -2,8 +2,6 @@ from django.db import models
 from .utilities import get_timestamp_path
 from django.urls import reverse
 from blog.models import AdvUser
-
-    
     
 class StRubric(models.Model):
     name = models.CharField(max_length = 20, db_index = True, null = True, unique = True, verbose_name = 'Haзвaниe')
@@ -110,8 +108,7 @@ class StDocument(models.Model):
     body = models.TextField(verbose_name = 'Oпиcaниe')
     slug = models.SlugField(max_length=250,
                             unique_for_date='publish', default='0000', verbose_name ='Код') 
-    author = models.ForeignKey(AdvUser, 
-                               on_delete=models.CASCADE,
+    author = models.ForeignKey(AdvUser, on_delete=models.CASCADE,
                                related_name='main_documents', default='', verbose_name = 'Автор') 
    
     publish = models.DateTimeField(auto_now_add = True, db_index = True, verbose_name = 'Опубликовано')

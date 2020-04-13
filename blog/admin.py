@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import AdvUser
 from .forms import SubRubricForm
 from .models import SuperRubric, SubRubric
 from .models import Post, Comment
-# Register your models here.
+from .models import AdvUser
+
 
 class SubRubricInline(admin.TabularInline):
     model = SubRubric

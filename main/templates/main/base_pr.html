@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
  {% bootstrap_css %}
-     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
      <link rel="stylesheet" href="{% static 'css/style.css' %}">
       {% bootstrap_javascript jquery='slim' %}
      <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,400,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
@@ -48,7 +48,7 @@
               role="button" aria-haspopup="true"
               aria-expanden="False">Профиль </a>
               <div class="dropdown-menu">
-                <A class="dropdown-item" href="{% url 'main:profile_st' %}">Moи проекты</a>
+                <A class="dropdown-item" href="{% url 'main:profile_std' %}">Moи проекты</a>
                   <A class="dropdown-item" href="{% url 'change_user_info' %}">Изменить личные данные</a>
                     <a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a>
                     <div class="dropdown-divider"></div>
@@ -69,18 +69,21 @@
 		 </div>
 	</header>
   <div class="row"><div class="w-100"></div>
-  <nav class="col-md-2 mb-8 nav flex-column border ;"><h1>.   </h1>
+                    <nav class="col-md-2 mb-8 nav flex-column border ;"><h1>.   </h1>
                       <A class="nav-link root "
                       {% for strubric in strubrics %}
-                       {{strubric.pk}}
                       {% ifchanged strubric.stsuper_rubric.pk %}
                       <span class="nav-link root font-weight-Ьold">
                         {{ strubric.stsuper_rubric.name }}</span>
-        <A class="nav-link" href="{% url 'main:by_rubric_st' pk=strubric.pk %}">
+                        {% else %}
+                        "                                                  "
                         {% endifchanged %}
+                        <A class="nav-link" href="{% url 'main:by_rubric_st' pk=strubric.pk %}">
                           {{ strubric.name }}</a>
                           {% endfor %}
-   </nav>   
+                     </nav>   
+					
+                   
                        <section class="col-md-6 mb-8 nav flex-column border"><h1>.   </h1>
                        <div class="w-100"></div>
                            

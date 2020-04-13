@@ -1,6 +1,7 @@
-﻿{% extends 'base_pr.html' %}
+﻿{% extends 'main/base_pr.html' %}
 {% load thumbnail %}
 {% load static %}
+{% load bootstrap4 %}
 {% block title %}{{ strubric }}{% endblock %}
 {% block searchform %}
 {% endblock %}
@@ -12,17 +13,15 @@
 <ul class="list-unstyled">
     {% for st in sts %}
     <li class="media my-5 p-3 border">
-        {% url 'detail' strubric_pk=strubric.pk pk=st.pk as url %}
-        <a href="{% url 'st_detail' pk=st.pk %}">
-        
-        </a>
+      {% url 'detail' strubric_pk=strubric.pk pk=st.pk as url %}
+        <a href="{% url 'main:st_detail' pk=st.pk %}"></a>
         <div class="media-body">
-          <h3><a href="{% url 'st_detail' pk=st.pk %}">{{ st.title }}</a></h3>
+        <h3><a href="{% url 'main:st_detail' pk=st.pk %}">{{ st.title }}</a></h3>
           <div>{{ st.text }}</div>
           <p class="text-right font-weight-bold">{{ st.price }}</p>
-          <p class="text-right font-italic">{{ st.created_date }}</p>
+          <p class="text-right font-italic">{{ st.created_at }}</p>
+        {% url 'st_detail' strubric_pk=strubric.pk pk=st.pk as url %}
         </div>
-        <a href="{% url 'st_detail' pk=st.pk %}">Comments: {{ st.approved_comments.count }}</a>
     </li>
     {% endfor %}
 </ul>

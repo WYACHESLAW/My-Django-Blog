@@ -1,0 +1,28 @@
+{% extends "main/base_doc.html" %}
+{% load bootstrap4 %}
+{% block title %}{{ std.title }} - Профиль пользователя{% endblock %}
+{% block content %}
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col">
+            <h2>{{ std.title }}</h2>
+            <p>{{ std.content }}</p>
+            <p class="font-weight-bold">{{ st.price }}</p>
+            <p>{{ std.contacts }}</p>
+            <p class="text-right font-italic">Документ добавлен {{ std.created_at }}</p>
+        </div>
+    </div>
+</div>
+<p><a href="{% url 'main:profile_std' %}">Назад</a></p>
+{% if comments %}
+<div class="mt-5">
+    {% for comment in comments %}
+    <div class="my-2 p-2 border">
+        <h5>{{ comment.author }}</h5>
+        <p>{{ comment.content }}</p>
+        <p class="text-right font-italic">{{ comment.created_at }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,7 +1,7 @@
-﻿{% extends 'blog/base.html' %}
+﻿{% extends 'main/base_doc.html' %}
 
-
-{% block title %}{{ rubric }}{% endblock %}
+{% load bootstrap4 %}
+{% block title %}{{ stdrubric }}{% endblock %}
 
 {% block searchform %}
 {% endblock %}
@@ -15,17 +15,17 @@
 <ul class="list-unstyled">
     {% for post in posts %}
     <li class="media my-5 p-3 border">
-        {% url 'detail' rubric_pk=stdrubric.pk pk=post.pk as url %}
+        {% url 'detail' stdrubric_pk=stdrubric.pk pk=st.pk as url %}
         <a href="{% url 'doc_detail' pk=document.pk %}">
         
         </a>
         <div class="media-body">
           <h3><a href="{% url 'doc_detail' pk=document.pk %}">{{ document.title }}</a></h3>
           <div>{{ post.text }}</div>
-          <p class="text-right font-weight-bold">{{ post.price }}</p>
-          <p class="text-right font-italic">{{ post.created_date }}</p>
+          <p class="text-right font-weight-bold">{{ std.price }}</p>
+          <p class="text-right font-italic">{{ std.created_date }}</p>
         </div>
-        <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+        <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ std.approved_comments.count }}</a>
     </li>
     {% endfor %}
 </ul>

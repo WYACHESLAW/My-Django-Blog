@@ -10,38 +10,42 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SearchForm
 from django.db.models import Q
 from .models import SubRubric
-from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
 from django.urls import reverse_lazy
-from .forms import RegisterUserForm
-from .models import AdvUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
-from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
-from .models import Rubric
+from .models import Rubric, Profile
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
-from .forms import ChangeUserinfoForm
+from .forms import LoginForm, UserRegistrationForm
+from django.contrib.auth import authenticate, login
 #from django.contrib import messages
 from django.contrib import messages
+#from actions.utils import create_action
+#from django.contrib.auth import get_user_model
 
-class ChangeUserinfoView(SuccessMessageMixin, LoginRequiredMixin,
-                         UpdateView) :
-    model = AdvUser
-    template_name = 'blog/change_user_info.html'
-    form_class = ChangeUserinfoForm
-    success_url = reverse_lazy('profile')
-    success_message = 'личные данные пользователя изменены'
-    def dispatch(self, request, *args, **kwargs):
-        self . user_id = request.user.pk
-        return super() .dispatch(request, *args, **kwargs)
-    def get_object(self, queryset=None):
-        if not queryset:
-            queryset = self.get_queryset()
-            return get_object_or_404(queryset, pk=self.user_id)
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request,
+                                username=cd['username'],
+                                password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Authenticated '\
+                                        'successfully')
+                else:
+                    return HttpResponse('Disabled account')
+            else:
+                return HttpResponse('Invalid login')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
 
 class STR_PasswordChangeView(SuccessMessageMixin, LoginRequiredMixin,
@@ -229,49 +233,10 @@ def other_page(request, page):
         raise Http404
     return HttpResponse(template.render(request=request))
 
-class RegisterUserView(CreateView):
-    model = AdvUser
-    template_name = 'register_user.html'
-    form_class = RegisterUserForm
-    succes_url = reverse_lazy('register_user')
     
 class RegisterDoneView(TemplateView):
     template_name = 'register_done.html'
  
-from django.core.signing import BadSignature
-from .utilities import signer    
-    
-def user_activate(request, sign):
-    try:
-        username = signer.unsign(sign)
-    except BadSignature:
-        return render(request, 'main/bad_signature.html')
-    user = get_object_or_404(AdvUser, username=username)
-    if user.is_activated:
-        template = 'blog/user is activated.html'
-    else:
-        template = 'blog/activation done.html'
-        user.is_active = True
-        user.is_activated = True
-        user. save ()
-    return render(request, template)
-
-class DeleteUserView(LoginRequiredMixin, DeleteView):
-    model = AdvUser
-    template_name = 'main/delete_user.html'
-    success_url = reverse_lazy('main:index')
-    def dispatch(self, request, *args, **kwargs):
-        self.user_id = request.user.pk
-        return super().dispatch(request, *args, **kwargs)
-    def post(self, request, *args, **kwargs):
-        logout(request)
-        messages.add_message(request, messages.SUCCESS, 'Пользователь удален')
-        return super() .post(request, *args, **kwargs)
-    def get_object(self, queryset=None):
-        if not queryset:
-            queryset = self.get_queryset()
-            return get_object_or_404(queryset, pk=self.user_id)
-        
 @login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -297,6 +262,24 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # Create a new user object but avoid saving it yet
+            new_user = user_form.save(commit=False)
+            # Set the chosen password
+            new_user.set_password(user_form.cleaned_data['password'])
+            # Save the User object
+            new_user.save()
+            # Create the user profile
+            Profile.objects.create(user=new_user)
+#            create_action(new_user, 'has created an account')
+            return render(request, 'register_done.html', {'new_user': new_user})
+    else:
+        user_form = UserRegistrationForm()
+    return render(request,'register_user.html', {'user_form': user_form})
 
 def home(request):
     postList = Post.objects.filter(visible='1')

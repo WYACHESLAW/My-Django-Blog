@@ -1,11 +1,13 @@
-﻿{% extends 'blog/base.html' %}
+﻿{% extends "blog/base.html" %}
 {% load bootstrap4 %}
-{% block title %}Регистрация{% endblock %}
+{% block title %}Зарегистрироваться{% endblock %}
+
 {% block content %}
-<h2>Регистрация нового пользователя</h2>
-<form method="post">
-{% csrf_token %}
-{% bootstrap_form form layout='horizontal' %}
-{% buttons submit='Зарегистрироваться' %}{% endbuttons %}
-</form>
+  <h4>Зарегистрироваться</h4>
+  <p>Пожалуйста, зарегистрируйтесь, используя следующую форму:</p>
+  <form action="." method="post">
+    {{ user_form.as_p }}
+      {% csrf_token %}
+    <p><input type="submit" value="Зарегистрироваться"></p>
+  </form>
 {% endblock %}

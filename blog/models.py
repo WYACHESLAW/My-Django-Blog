@@ -1,24 +1,29 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
-from django.dispatch import Signal
-from .utilities import send_activation_notification
+
 
 class AdvUser(AbstractUser):
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name = 'Прошел активацию?')
     send_messages = models.BooleanField(default=True, verbose_name = 'Слать оповещение о новых коментариях ?')
     def delete(self, *arqs, **kwarqs):
-        for post in self.post_set.all():
-            post. delete()
+        for st in self.st_set.all():
+            st. delete()
             super().delete(*arqs, **kwarqs)
     class Meta(AbstractUser.Meta):
         pass
+    
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date_of_birth = models.DateField(blank=True, null=True)
+    photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
 
-user_registrated = Signal(providing_args = ['instance'])
-def user_registrated_dispatcher(sender, **kwargs):
-    send_activation_notification(kwargs['instance'])
-    user_registrated.connect(user_registrated_dispatcher)
+    def __str__(self):
+        return 'Profile for user {}'.format(self.user.username)
+
+
     
 class Rubric(models.Model):
     name = models.CharField(max_length = 20, db_index = True, null = True, unique = True, verbose_name = 'Haзвaниe')
@@ -75,7 +80,9 @@ class Post(models.Model):
     def publish(self):
         self.published_date = timezone.now()
         self.save()
-
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', args=[self.publish.year, 
+ 	                   self.publish.month, self.publish.day, self.slug])
     def __str__(self):
         return self.title
 

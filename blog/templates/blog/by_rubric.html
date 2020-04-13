@@ -17,7 +17,6 @@
     <li class="media my-5 p-3 border">
         {% url 'detail' rubric_pk=rubric.pk pk=post.pk as url %}
         <a href="{% url 'post_detail' pk=post.pk %}">
-        
         </a>
         <div class="media-body">
           <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>

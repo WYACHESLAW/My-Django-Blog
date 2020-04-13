@@ -48,7 +48,7 @@
               role="button" aria-haspopup="true"
               aria-expanden="False">Профиль </a>
               <div class="dropdown-menu">
-                <A class="dropdown-item" href="{% url 'profile' %}">Moи объявления</a>
+                <A class="dropdown-item" href="{% url 'main:profile_std' %}">Moи документы</a>
                   <A class="dropdown-item" href="{% url 'change_user_info' %}">Изменить личные данные</a>
                     <a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a>
                     <div class="dropdown-divider"></div>
@@ -75,8 +75,10 @@
                       {% ifchanged stdrubric.stdsuper_rubric.pk %}
                       <span class="nav-link root font-weight-Ьold">
                         {{ stdrubric.stdsuper_rubric.name }}</span>
+                        {% else %}
+                        "                                                  "
                         {% endifchanged %}
-                        <A class="nav-link" href="{% url 'by_rubric_std' pk=stdrubric.pk %}">
+                        <A class="nav-link" href="{% url 'main:by_rubric_std' pk=stdrubric.pk %}">
                           {{ stdrubric.name }}</a>
                           {% endfor %}
                      </nav>   
