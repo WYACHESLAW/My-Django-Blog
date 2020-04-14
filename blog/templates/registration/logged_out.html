@@ -1,8 +1,8 @@
-{% extends "base.html" %}
-
-{% block title %}Logged out{% endblock %}
+{% extends "blog/base.html" %}
+{% load bootstrap4 %}
+{% block title %}Выход{% endblock %}
 
 {% block content %}
-  <h1>Logged out</h1>
-  <p>You have been successfully logged out. You can <a href="{% url "login" %}">log-in again</a>.</p>
+  <h4>Выход</h4>
+  <p>Вы успешновышли из системы. Вы можете <a href="{% url "login" %}">войти снова</a>.</p>
 {% endblock %}

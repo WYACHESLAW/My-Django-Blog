@@ -40,7 +40,7 @@
 					
       <ul class="col nav justify-content-end ">
         <li class="nav-item">
-          <A class="nav-link" href="{% url 'register_user' %}">Регистрация</a></li>
+          <A class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
            {% if request.user.is_activated %}
             <li class="nav-item dropdown">
               <A class="nav-link dropdown-toggle"

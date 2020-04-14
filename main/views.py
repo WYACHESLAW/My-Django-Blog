@@ -8,60 +8,52 @@ from django.shortcuts import redirect
 
 @login_required
 def profile_std_change(request, pk):
-    std = get_object_or_404(St, pk=pk)
+    std = get_object_or_404(StDocument, pk=pk)
     if request.method == 'POST':
-        form = StDocumentForm(request.StDocument, request.FILES, instance=std)
+        form = StDocumentForm(request.POST, request.FILES, instance=std)
         if form.is_valid():
             std = form.save()
-            #formset = AIFormSet(request.POST, request.FILES, instance=st)
-            #if formset.is_valid():
-                #formset.save()
             messages.add_message(request, messages.SUCCESS, 'Проект исправлен')
-            return redirect('main/profile_std.html')
+            return redirect('main:profile_std')
     else:
         form = StDocumentForm(instance=std)
-        #formset = AIFormSet(instance=st)
         context = {'form':form}
-        return render(request, 'main/profile_std_change.html', context) 
+        return render(request, 'profile_std_change.html', context) 
 @login_required
 def profile_std_delete(request, pk):
-    std = get_object_or_404(St, pk=pk)
+    std = get_object_or_404(StDocument, pk=pk)
     if request.method == 'POST':
         std.delete()
-        messages.add_message(request, messages.SUCCESS, 'Проект удален')
+        messages.add_message(request, messages.SUCCESS, 'Проект будет удален')
         return redirect ('main:profile_std')
     else:
         context = {'std':std}
-        return render(request, 'main/profile_std_delete.html', context)
+        return render(request, 'profile_std_delete.html', context)
 
 
 @login_required
 def profile_st_change(request, pk):
     st = get_object_or_404(St, pk=pk)
     if request.method == 'POST':
-        form = StForm(request.St, request.FILES, instance=st)
+        form = StForm(request.POST, request.FILES, instance=st)
         if form.is_valid():
-            st = form.save()
-            #formset = AIFormSet(request.POST, request.FILES, instance=st)
-            #if formset.is_valid():
-                #formset.save()
+            form.save()
             messages.add_message(request, messages.SUCCESS, 'Проект исправлен')
             return redirect('main:profile_st')
     else:
         form = StForm(instance=st)
-        #formset = AIFormSet(instance=st)
         context = {'form':form}
-        return render(request, 'main:profile_st_change.html', context) 
+        return render(request, 'profile_st_change.html', context) 
 @login_required
 def profile_st_delete(request, pk):
     st = get_object_or_404(St, pk=pk)
     if request.method == 'POST':
         st.delete()
-        messages.add_message(request, messages.SUCCESS, 'Проект удален')
-        return redirect ('main/profile_st')
+        messages.add_message(request, messages.SUCCESS, 'Проект будет удален')
+        return redirect ('main:profile_st')
     else:
         context = {'st':st}
-        return render(request, 'main:profile_st_delete.html', context)
+        return render(request, 'profile_st_delete.html', context)
 
 
 @login_required
@@ -69,15 +61,15 @@ def profile_std_add(request):
     if request.method == 'POST':
         form = StDocumentForm(request.POST,request.FILES)
         if form.is_valid():
-            std = form.save()
-            #formset = AIFormSet(request.POST, request.FILES, instance=st)
-            #if formset.is_valid():
-             #formset. save ()
+            form.save()
+#            formset = AIFormSet(request.POST, request.FILES, instance=std)
+#            if formset.is_valid():
+#             formset. save ()
             messages.add_message(request, messages.SUCCESS, 'Документ добавлен')
             return redirect('main/profile_std')
     else:
-        form = StForm(initial={'author':request.user.pk})
-      #  formset = AIFormSet()
+        form = StDocumentForm(initial={'author':request.user.pk})
+#        formset = AIFormSet()
         context = {'form':form}
         return render(request, 'main/profile_std_add.html', context)
 
@@ -87,15 +79,15 @@ def profile_st_add(request):
     if request.method == 'POST':
         form = StForm(request.POST,request.FILES)
         if form.is_valid():
-            st = form.save()
-            #formset = AIFormSet(request.POST, request.FILES, instance=st)
-            #if formset.is_valid():
-             #formset. save ()
+            form.save()
+#            formset = AIFormSet(request.POST, request.FILES, instance=st)
+#            if formset.is_valid():
+#             formset. save ()
             messages.add_message(request, messages.SUCCESS, 'Проект добавлен')
             return redirect('profile_st')
     else:
         form = StForm(initial={'author':request.user.pk})
-      #  formset = AIFormSet()
+#        formset = AIFormSet()
         context = {'form':form}
         return render(request, 'main/profile_st_add.html', context)
 
@@ -153,9 +145,6 @@ def document(request):
     documents = StDocument.objects.all()
     return render(request, 'main/document.html', { 'documents':documents })
 
-def doc_detail(request, pk):
-    document = get_object_or_404(StDocument, pk=pk)
-    return render(request, 'main/docdetail.html', { 'document':document })
 
 def login(request):
     return render(request, 'main/login.html')  
@@ -179,7 +168,7 @@ def st_detail(request, pk):
 
 @login_required
 def std_detail(request, pk):
-    std = get_object_or_404(St, pk=pk)
+    std = get_object_or_404(StDocument, pk=pk)
     #ais = st.additionalimage_set.all()
     context = {'std': std, 'pk':pk}
     return render(request, 'main/std_detail.html', context)
@@ -188,14 +177,27 @@ def std_detail(request, pk):
 def st_edit(request, pk):
     st = get_object_or_404(St, pk=pk)
     if request.method == "POST":
-        form = StForm(request.St, instance=st)
+        form = StForm(request.POST, instance=st)
         if form.is_valid():
             st = form.save(commit=False)
             st.author = request.user
             st.created_at = timezone.now()
             st.save()
-            return redirect('st_detail', pk=st.pk)
+            return redirect('main:st_detail', pk=st.pk)
     else:
         form = StForm(instance=st)
     return render(request, 'main/st_edit.html', {'form': form})
 
+def std_edit(request, pk):
+    std = get_object_or_404(StDocument, pk=pk)
+    if request.method == "POST":
+        form = StDocumentForm(request.POST, instance=std)
+        if form.is_valid():
+            std = form.save(commit=False)
+            std.author = request.user
+            std.created_at = timezone.now()
+            std.save()
+            return redirect('main:std_detail', pk=std.pk)
+    else:
+        form = StDocumentForm(instance=std)
+    return render(request, 'main/std_edit.html', {'form': form})

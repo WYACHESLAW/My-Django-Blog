@@ -1,8 +1,8 @@
 {% extends 'main/base_pr.html' %}
 {% load bootstrap4 %}
-{% block title %}Добавление объявления - Профиль пользователя{% endblock %}
+{% block title %}Добавление проекта - Профиль пользователя{% endblock %}
 {% block content %}
-<h2>Добавление объявления</h2>
+<h2>Добавление проекта</h2>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form layout='horizontal' %}

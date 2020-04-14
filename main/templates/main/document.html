@@ -10,7 +10,7 @@
 <div class="container-fluid mt-3">
         
         <div class="media-body">
-            <h5><a href="{% url 'main:docdetail' pk=document.pk %}">{{document.title}}</a></h5>
+            <h5><a href="{% url 'main:std_detail' pk=document.pk %}">{{document.title}}</a></h5>
            <div>{{ document.content }}</div>
            <p class="text-right font-weight-bold">{{ document.slug }}</p>
           <p class="text-right font-italic">{{ document.publish }}</p>

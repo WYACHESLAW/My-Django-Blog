@@ -94,7 +94,8 @@ def profile_post_add(request):
     if request.method == 'POST':
         form = PostForm(request.POST,request.FILES)
         if form.is_valid():
-            post = form.save()
+            #post =form.save() 
+            form.save()
             #formset = AIFormSet(request.POST, request.FILES, instance=st)
             #if formset.is_valid():
              #formset. save ()
@@ -279,7 +280,25 @@ def register(request):
             return render(request, 'register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
-    return render(request,'register_user.html', {'user_form': user_form})
+    return render(request,'register.html', {'user_form': user_form})
+
+from .forms import ChangeUserinfoForm
+from django.views.generic.edit import UpdateView
+from .models import AdvUser
+class ChangeUserinfoView(SuccessMessageMixin, LoginRequiredMixin,
+                         UpdateView) :
+    model = AdvUser
+    template_name = 'blog/change_user_info.html'
+    form_class = ChangeUserinfoForm
+    success_url = reverse_lazy('blog:profile')
+    success_message = 'личные данные пользователя изменены'
+    def dispatch(self, request, *args, **kwargs):
+        self . user_id = request.user.pk
+        return super() .dispatch(request, *args, **kwargs)
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+            return get_object_or_404(queryset, pk=self.user_id)
 
 def home(request):
     postList = Post.objects.filter(visible='1')

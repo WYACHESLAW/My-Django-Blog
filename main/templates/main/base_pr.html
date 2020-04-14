@@ -40,7 +40,7 @@
 					
       <ul class="col nav justify-content-end ">
         <li class="nav-item">
-          <A class="nav-link" href="{% url 'register_user' %}">Регистрация</a></li>
+          <A class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
            {% if request.user.is_activated %}
             <li class="nav-item dropdown">
               <A class="nav-link dropdown-toggle"
@@ -48,7 +48,7 @@
               role="button" aria-haspopup="true"
               aria-expanden="False">Профиль </a>
               <div class="dropdown-menu">
-                <A class="dropdown-item" href="{% url 'main:profile_std' %}">Moи проекты</a>
+                <A class="dropdown-item" href="{% url 'main:profile_st' %}">Moи проекты</a>
                   <A class="dropdown-item" href="{% url 'change_user_info' %}">Изменить личные данные</a>
                     <a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a>
                     <div class="dropdown-divider"></div>
