@@ -85,13 +85,11 @@ class St(models.Model):
     content = models.TextField(verbose_name = 'Oпиcaниe')
     price = models.CharField(max_length = 40, verbose_name='Станок')
     contacts = models.TextField(verbose_name = 'Koнтaкты')
-    image = models.ImageField(blank = True, upload_to = get_timestamp_path, verbose_name = 'Изображение')
+   # image = models.ImageField(blank = True, upload_to = get_timestamp_path, verbose_name = 'Изображение')
     author = models.ForeignKey(AdvUser, on_delete = models.CASCADE, verbose_name = 'Aвтop проекта')
     is_active = models.BooleanField(default = True, db_index = True, verbose_name = 'Выводить в списке?')
     created_at = models.DateTimeField(auto_now_add = True, db_index = True, verbose_name = 'Опубликовано')
     def delete(self, *args, **kwargs):
-        for ai in self.additionalimage_set.all():
-            ai. delete ()
         super().delete(*args, **kwargs)
     class Meta:
         verbose_name_plural = 'Проекты'
